@@ -599,13 +599,29 @@
       }
 
       async function hitAppsScript(payload) {
+        const body = new URLSearchParams(payload).toString();
+
         const res = await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          },
+          body
         });
-        const data = await res.json();
-        if (!res.ok || !data.ok) throw new Error(data.message || 'حدث خطأ غير متوقع.');
+
+        const text = await res.text();
+
+        let data = {};
+        try {
+          data = JSON.parse(text || "{}");
+        } catch (e) {
+          throw new Error('رد غير متوقع من Apps Script.');
+        }
+
+        if (!res.ok || !data.ok) {
+          throw new Error(data.message || 'حدث خطأ غير متوقع.');
+        }
+
         return data;
       }
 
