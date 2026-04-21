@@ -171,22 +171,6 @@
         font-size: 16px;
       }
 
-      select {
-        padding-inline: 18px 42px;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='%230f172a' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-        background-repeat: no-repeat;
-        background-position: left 14px center;
-        background-size: 18px;
-      }
-
-      select:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(246, 212, 123, 0.4);
-      }
-
       textarea {
         min-height: 180px;
         resize: vertical;
@@ -244,69 +228,69 @@
       .message.success {
         display: block;
         background: rgba(22,163,74,.14);
-        border:1px solid rgba(134,239,172,.25);
-        color:#bbf7d0;
+        border: 1px solid rgba(134,239,172,.25);
+        color: #bbf7d0;
       }
 
       .message.error {
-        display:block;
+        display: block;
         background: rgba(220,38,38,.12);
-        border:1px solid rgba(252,165,165,.22);
-        color:#fecaca;
+        border: 1px solid rgba(252,165,165,.22);
+        color: #fecaca;
       }
 
       .footer-note {
-        margin-top:14px;
-        color:#e2e8f0;
-        font-size:14px;
-        line-height:1.7;
+        margin-top: 14px;
+        color: #e2e8f0;
+        font-size: 14px;
+        line-height: 1.7;
       }
 
       .table-card {
-        padding:22px;
-        margin-top:20px;
+        padding: 22px;
+        margin-top: 20px;
       }
 
-      .table-wrap { overflow:auto; }
+      .table-wrap { overflow: auto; }
 
       table {
-        width:100%;
+        width: 100%;
         border-collapse: collapse;
         min-width: 760px;
       }
 
       th, td {
-        padding:16px 14px;
-        border-bottom:1px solid rgba(255,255,255,.08);
-        text-align:right;
+        padding: 16px 14px;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+        text-align: right;
       }
 
-      th { color:#fde68a; }
+      th { color: #fde68a; }
 
       .job-tag {
-        display:inline-flex;
-        align-items:center;
-        padding:8px 12px;
-        border-radius:999px;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
         background: rgba(246,212,123,.14);
-        color:#fde68a;
-        border:1px solid rgba(246,212,123,.14);
+        color: #fde68a;
+        border: 1px solid rgba(246,212,123,.14);
       }
 
       .crown-btn {
-        border:1px solid rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.12);
         background: rgba(255,255,255,.06);
         color: rgba(255,255,255,.4);
-        width:42px;
-        height:42px;
-        border-radius:50%;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        font-size:22px;
-        cursor:pointer;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
         transition: all .2s ease;
-        box-shadow:none;
+        box-shadow: none;
       }
 
       .crown-btn:hover {
@@ -314,7 +298,7 @@
       }
 
       .crown-btn.active {
-        color:#f6d47b;
+        color: #f6d47b;
         background: rgba(246,212,123,.14);
         border-color: rgba(246,212,123,.28);
         box-shadow: 0 0 0 1px rgba(246,212,123,.08), 0 10px 24px rgba(201,154,46,.16);
@@ -341,11 +325,11 @@
             <div class="clock">
               <strong>الوقت الحالي</strong>
               <span id="liveClock">--:--:--</span>
-              <small>توقيت جهازك المحلي</small>
+              <small>{{ timezone_label }}</small>
             </div>
             <div class="date-card">
-              <div>شيت اليوم: <b id="sheetName">--</b></div>
-              <div style="margin-top:8px">ملف العمل: <a class="status-link" href="https://docs.google.com/spreadsheets/d/1dSsj9rXwaQGaZ1MSogZnTYAsFyIasGQQ-u3RGXTQC0w/edit?usp=sharing" target="_blank">افتح Google Sheet</a></div>
+              <div>شيت اليوم: <b id="sheetName">{{ today_sheet }}</b></div>
+              <div style="margin-top:8px">ملف العمل: <a class="status-link" href="{{ spreadsheet_url }}" target="_blank">افتح Google Sheet</a></div>
             </div>
             <div id="connectionCard" class="status-card status-ok">
               <strong>تعليمات التسجيل</strong>
@@ -380,18 +364,12 @@
               </select>
             </div>
             <div>
-              <label for="dayType">نوع اليوم</label>
-              <select id="dayType">
-                <option value="normal">يوم عادي</option>
-                <option value="busy">يوم ضغط</option>
-                <option value="review">يوم مراجعة</option>
-                <option value="sales">يوم مبيعات</option>
+              <label for="modeSelect">وضع التشغيل</label>
+              <select id="modeSelect">
+                <option value="normal">تشغيل مباشر</option>
+                <option value="focus">وضع التركيز</option>
               </select>
             </div>
-          </div>
-
-          <div class="footer-note" style="margin-top: 2px;">
-            حدّد نوع اليوم ليساعدك على تنظيم طبيعة الشغل قبل تسجيل الحضور أو المهام.
           </div>
 
           <div style="margin-top:14px;">
@@ -430,31 +408,31 @@
                 <td>EMP-001</td>
                 <td>احمد صلاح بيومي</td>
                 <td><button type="button" class="crown-btn" data-employee-id="EMP-001" title="تفعيل موظف الشهر">👑</button></td>
-                <td><span class="job-tag">المدير التنفيذي والمالك</span></td>
+                <td><span class="job-tag">موظف</span></td>
               </tr>
               <tr>
                 <td>EMP-002</td>
                 <td>حميده محمد هنداوي</td>
                 <td><button type="button" class="crown-btn" data-employee-id="EMP-002" title="تفعيل موظف الشهر">👑</button></td>
-                <td><span class="job-tag">المستشار القانوني للشركة</span></td>
+                <td><span class="job-tag">موظف</span></td>
               </tr>
               <tr>
                 <td>EMP-003</td>
                 <td>مارتينا عماد</td>
                 <td><button type="button" class="crown-btn" data-employee-id="EMP-003" title="تفعيل موظف الشهر">👑</button></td>
-                <td><span class="job-tag">أخصائي مبيعات وتسويق عقاري</span></td>
+                <td><span class="job-tag">موظف</span></td>
               </tr>
               <tr>
                 <td>EMP-004</td>
                 <td>فؤاد سيد</td>
                 <td><button type="button" class="crown-btn" data-employee-id="EMP-004" title="تفعيل موظف الشهر">👑</button></td>
-                <td><span class="job-tag">منسق خدمات وتنفيذ ميداني</span></td>
+                <td><span class="job-tag">موظف</span></td>
               </tr>
               <tr>
                 <td>EMP-005</td>
                 <td>يوسف مهدي</td>
                 <td><button type="button" class="crown-btn" data-employee-id="EMP-005" title="تفعيل موظف الشهر">👑</button></td>
-                <td><span class="job-tag">مشرف خدمات ومرافق</span></td>
+                <td><span class="job-tag">موظف</span></td>
               </tr>
             </tbody>
           </table>
@@ -463,21 +441,11 @@
     </div>
 
     <script>
-      const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDSda53Wr_VMlvuBLMkVBcybLOsGthTHhJq8bZ9Ay6sDweJ-LsEpOzKywjbnAkVuI/exec";
-      const SHEET_URL = "https://docs.google.com/spreadsheets/d/1dSsj9rXwaQGaZ1MSogZnTYAsFyIasGQQ-u3RGXTQC0w/edit?usp=sharing";
-      const EMPLOYEE_MAP = {
-        "EMP-001": "احمد صلاح بيومي",
-        "EMP-002": "حميده محمد هنداوي",
-        "EMP-003": "مارتينا عماد",
-        "EMP-004": "فؤاد سيد",
-        "EMP-005": "يوسف مهدي"
-      };
-
       const liveClock = document.getElementById('liveClock');
       const messageBox = document.getElementById('messageBox');
       const employeeSelect = document.getElementById('employeeSelect');
       const taskBox = document.getElementById('taskBox');
-      const dayTypeSelect = document.getElementById('dayType');
+      const modeSelect = document.getElementById('modeSelect');
       const crownButtons = Array.from(document.querySelectorAll('.crown-btn'));
 
       const buttons = {
@@ -486,13 +454,14 @@
         task: document.getElementById('saveTaskBtn')
       };
 
-      const employeeIds = Object.keys(EMPLOYEE_MAP);
-      const sessionState = {};
+      const actionMap = {
+        attendance: buttons.checkIn,
+        task: buttons.task,
+        checkout: buttons.checkOut
+      };
 
-      function todaySheetName() {
-        const now = new Date();
-        return `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
-      }
+      const employeeIds = ["EMP-001", "EMP-002", "EMP-003", "EMP-004", "EMP-005"];
+      const sessionState = {};
 
       function updateClock() {
         const now = new Date();
@@ -504,25 +473,10 @@
         messageBox.className = `message ${type}`;
       }
 
-      function getDayTypeLabel(value) {
-        const labels = {
-          normal: 'يوم عادي',
-          busy: 'يوم ضغط',
-          review: 'يوم مراجعة',
-          sales: 'يوم مبيعات'
-        };
-        return labels[value] || 'يوم عادي';
-      }
-
-      function saveDayType() {
-        localStorage.setItem('attendance_day_type', dayTypeSelect.value);
-      }
-
-      function loadDayType() {
-        const saved = localStorage.getItem('attendance_day_type');
-        if (saved) {
-          dayTypeSelect.value = saved;
-        }
+      function applyMode() {
+        document.body.style.background = modeSelect.value === 'focus'
+          ? 'linear-gradient(135deg, #020617, #111827)'
+          : 'radial-gradient(circle at 10% 20%, rgba(239, 215, 155, 0.18), transparent 25%), radial-gradient(circle at 90% 10%, rgba(185, 137, 40, 0.22), transparent 28%), linear-gradient(135deg, #08111f, #121f38)';
       }
 
       function setBusy(isBusy) {
@@ -572,7 +526,17 @@
         taskBox.disabled = taskLocked;
       }
 
-      function updateSummary() {
+      function updateSummary(summary, sheetName) {
+        if (!summary) return;
+        document.getElementById('sheetName').textContent = sheetName || document.getElementById('sheetName').textContent;
+        document.getElementById('totalEmployees').textContent = summary.total_employees;
+        document.getElementById('checkIns').textContent = summary.check_ins;
+        document.getElementById('checkOuts').textContent = summary.check_outs;
+        document.getElementById('tasksCount').textContent = summary.tasks;
+        document.getElementById('completedCount').textContent = summary.completed;
+      }
+
+      function recomputeFromSession() {
         let checkIns = 0;
         let checkOuts = 0;
         let tasks = 0;
@@ -580,48 +544,34 @@
 
         employeeIds.forEach(id => {
           const s = sessionState[id] || {};
-          const hasAttendance = s.attendance || isActionLocked(id, 'attendance');
-          const hasCheckout = s.checkout || isActionLocked(id, 'checkout');
-          const hasTask = s.task || isActionLocked(id, 'task');
-
-          if (hasAttendance) checkIns++;
-          if (hasCheckout) checkOuts++;
-          if (hasTask) tasks++;
-          if (hasAttendance && hasCheckout && hasTask) completed++;
+          if (s.attendance || isActionLocked(id, 'attendance')) checkIns++;
+          if (s.checkout || isActionLocked(id, 'checkout')) checkOuts++;
+          if (s.task || isActionLocked(id, 'task')) tasks++;
+          if ((s.attendance || isActionLocked(id, 'attendance')) &&
+              (s.checkout || isActionLocked(id, 'checkout')) &&
+              (s.task || isActionLocked(id, 'task'))) {
+            completed++;
+          }
         });
 
-        document.getElementById('sheetName').textContent = todaySheetName();
-        document.getElementById('totalEmployees').textContent = employeeIds.length;
-        document.getElementById('checkIns').textContent = checkIns;
-        document.getElementById('checkOuts').textContent = checkOuts;
-        document.getElementById('tasksCount').textContent = tasks;
-        document.getElementById('completedCount').textContent = completed;
+        updateSummary({
+          total_employees: employeeIds.length,
+          check_ins: checkIns,
+          check_outs: checkOuts,
+          tasks: tasks,
+          completed: completed
+        }, document.getElementById('sheetName').textContent);
       }
 
-      async function hitAppsScript(payload) {
-        const body = new URLSearchParams(payload).toString();
-
-        const res = await fetch(APPS_SCRIPT_URL, {
+      async function hit(url, payload) {
+        const res = await fetch(url, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-          },
-          body
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
 
-        const text = await res.text();
-
-        let data = {};
-        try {
-          data = JSON.parse(text || "{}");
-        } catch (e) {
-          throw new Error('رد غير متوقع من Apps Script.');
-        }
-
-        if (!res.ok || !data.ok) {
-          throw new Error(data.message || 'حدث خطأ غير متوقع.');
-        }
-
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.message || 'حدث خطأ غير متوقع.');
         return data;
       }
 
@@ -629,7 +579,7 @@
         if (!sessionState[employeeId]) sessionState[employeeId] = {};
         sessionState[employeeId][action] = true;
         lockAction(employeeId, action);
-        updateSummary();
+        recomputeFromSession();
         applyLocksForEmployee(employeeId);
       }
 
@@ -658,30 +608,6 @@
         showMessage('تم تفعيل موظف الشهر بنجاح.', 'success');
       }
 
-      async function testConnection() {
-        try {
-          const res = await fetch(APPS_SCRIPT_URL);
-          const data = await res.json();
-          const connectionText = document.getElementById('connectionText');
-          const connectionCard = document.getElementById('connectionCard');
-          if (data.ok) {
-            connectionText.textContent = 'سجّل حضورك أو انصرافك أو مهمتك اليومية، وكل عملية تُحفظ مرة واحدة فقط.';
-            connectionCard.classList.remove('status-error');
-            connectionCard.classList.add('status-ok');
-          } else {
-            connectionText.textContent = 'الرابط متاح لكن الاستجابة غير متوقعة.';
-            connectionCard.classList.remove('status-ok');
-            connectionCard.classList.add('status-error');
-          }
-        } catch (e) {
-          const connectionText = document.getElementById('connectionText');
-          const connectionCard = document.getElementById('connectionCard');
-          connectionText.textContent = 'تعذر اختبار الربط الآن.';
-          connectionCard.classList.remove('status-ok');
-          connectionCard.classList.add('status-error');
-        }
-      }
-
       crownButtons.forEach(btn => {
         btn.addEventListener('click', () => activateEmployeeOfMonth(btn.dataset.employeeId));
       });
@@ -696,15 +622,10 @@
 
         setBusy(true);
         try {
-          const data = await hitAppsScript({
-            employee: EMPLOYEE_MAP[employeeId],
-            action: 'attendance',
-            task: '',
-            day_type: dayTypeSelect.value
-          });
+          const data = await hit('/api/check-in', { employee_id: employeeId });
           markSession(employeeId, 'attendance');
-          showMessage(data.message || 'تم تسجيل الحضور بنجاح.', 'success');
-          document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
+          showMessage(data.message, 'success');
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
         } catch (err) {
           showMessage(err.message, 'error');
         } finally {
@@ -723,15 +644,10 @@
 
         setBusy(true);
         try {
-          const data = await hitAppsScript({
-            employee: EMPLOYEE_MAP[employeeId],
-            action: 'checkout',
-            task: '',
-            day_type: dayTypeSelect.value
-          });
+          const data = await hit('/api/check-out', { employee_id: employeeId });
           markSession(employeeId, 'checkout');
-          showMessage(data.message || 'تم تسجيل الانصراف بنجاح.', 'success');
-          document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
+          showMessage(data.message, 'success');
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
         } catch (err) {
           showMessage(err.message, 'error');
         } finally {
@@ -748,23 +664,12 @@
           return;
         }
 
-        const task = taskBox.value.trim();
-        if (!task) {
-          showMessage('اكتب المهمة اليومية أولاً.', 'error');
-          return;
-        }
-
         setBusy(true);
         try {
-          const data = await hitAppsScript({
-            employee: EMPLOYEE_MAP[employeeId],
-            action: 'task',
-            task,
-            day_type: dayTypeSelect.value
-          });
+          const data = await hit('/api/task', { employee_id: employeeId, task: taskBox.value });
           markSession(employeeId, 'task');
-          showMessage(data.message || 'تم حفظ المهمة بنجاح.', 'success');
-          document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
+          showMessage(data.message, 'success');
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
           taskBox.value = '';
         } catch (err) {
           showMessage(err.message, 'error');
@@ -778,18 +683,23 @@
         applyLocksForEmployee(employeeSelect.value);
       });
 
-      dayTypeSelect.addEventListener('change', () => {
-        saveDayType();
-        showMessage(`تم تحديد نوع اليوم: ${getDayTypeLabel(dayTypeSelect.value)}`, 'success');
-      });
+      modeSelect.addEventListener('change', applyMode);
+
+      async function loadState() {
+        try {
+          const res = await fetch('/api/state');
+          const data = await res.json();
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
+        } catch (_) {}
+      }
 
       updateClock();
       setInterval(updateClock, 1000);
-      loadDayType();
+      applyMode();
       refreshEmployeeOfMonth();
-      updateSummary();
+      recomputeFromSession();
       applyLocksForEmployee(employeeSelect.value);
-      testConnection();
+      loadState();
     </script>
   </body>
 </html>
