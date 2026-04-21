@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>سيستم حضور وانصراف ومهام يومية</title>
+    <style>
+      :root {
+        --bg-1: #08111f;
+        --bg-2: #121f38;
+        --card: rgba(9, 17, 31, 0.72);
+        --stroke: rgba(255, 255, 255, 0.09);
+        --text: #f8fafc;
+        --muted: #cbd5e1;
+        --gold-1: #f6d47b;
+        --gold-2: #c99a2e;
+        --danger: #dc2626;
+        --ok: #16a34a;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        background:
+          radial-gradient(circle at 10% 20%, rgba(239, 215, 155, 0.18), transparent 25%),
+          radial-gradient(circle at 90% 10%, rgba(185, 137, 40, 0.22), transparent 28%),
+          linear-gradient(135deg, var(--bg-1), var(--bg-2));
+        min-height: 100vh;
+      }
+
+      .container {
+        width: min(1240px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 26px 0 34px;
+      }
+
+      .hero, .panel, .table-card, .stat {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        backdrop-filter: blur(14px);
+        border-radius: 26px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        padding: 28px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -50px -80px auto;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(246,212,123,.22), transparent 70%);
+        filter: blur(8px);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.25fr .9fr;
+        gap: 20px;
+      }
+
+      .hero h1 {
+        margin: 0 0 12px;
+        font-size: clamp(28px, 4vw, 48px);
+        line-height: 1.1;
+      }
+
+      .lead {
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.8;
+        margin: 0;
+      }
+
+      .hero-side {
+        display: grid;
+        gap: 14px;
+      }
+
+      .clock, .date-card, .status-card {
+        border-radius: 20px;
+        padding: 18px;
+        border: 1px solid rgba(255,255,255,.07);
+        background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      }
+
+      .clock span {
+        display: block;
+        font-size: 30px;
+        margin-top: 8px;
+        font-weight: 700;
+      }
+
+      .status-ok { color: #86efac; }
+      .status-error { color: #fca5a5; }
+
+      .status-link {
+        color: #fde68a;
+        text-decoration: none;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+        margin: 20px 0;
+      }
+
+      .stat { padding: 18px; }
+
+      .stat-label {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .stat-value {
+        font-size: 34px;
+        font-weight: 700;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .panel { padding: 24px; }
+
+      .panel h2 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+
+      .panel p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #f9fafb;
+        font-weight: 600;
+      }
+
+      select, textarea {
+        width: 100%;
+        border: none;
+        outline: none;
+        border-radius: 18px;
+        padding: 16px 18px;
+        background: rgba(255,255,255,.96);
+        color: #0f172a;
+        font-size: 16px;
+      }
+
+      textarea {
+        min-height: 180px;
+        resize: vertical;
+      }
+
+      /* تحسين شكل سهم الـ select */
+      select {
+        padding-inline: 18px 42px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='%230f172a' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: left 14px center;
+        background-size: 18px;
+      }
+
+      select:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(246, 212, 123, 0.4);
+      }
+
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      button {
+        border: none;
+        cursor: pointer;
+        border-radius: 16px;
+        padding: 14px 20px;
+        font-size: 16px;
+        font-weight: 700;
+        transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
+      }
+
+      button:hover { transform: translateY(-1px); }
+
+      button:disabled {
+        opacity: .45;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-gold {
+        background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
+        color: #111827;
+        box-shadow: 0 12px 34px rgba(201,154,46,.25);
+      }
+
+      .btn-dark {
+        background: #e2e8f0;
+        color: #111827;
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #ef4444, #b91c1c);
+        color: white;
+      }
+
+      .message {
+        margin-top: 14px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        display: none;
+        font-weight: 600;
+      }
+
+      .message.success {
+        display: block;
+        background: rgba(22,163,74,.14);
+        border: 1px solid rgba(134,239,172,.25);
+        color: #bbf7d0;
+      }
+
+      .message.error {
+        display: block;
+        background: rgba(220,38,38,.12);
+        border: 1px solid rgba(252,165,165,.22);
+        color: #fecaca;
+      }
+
+      .footer-note {
+        margin-top: 14px;
+        color: #e2e8f0;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .table-card {
+        padding: 22px;
+        margin-top: 20px;
+      }
+
+      .table-wrap { overflow: auto; }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 760px;
+      }
+
+      th, td {
+        padding: 16px 14px;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+        text-align: right;
+      }
+
+      th { color: #fde68a; }
+
+      .job-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(246,212,123,.14);
+        color: #fde68a;
+        border: 1px solid rgba(246,212,123,.14);
+      }
+
+      .crown-btn {
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(255,255,255,.06);
+        color: rgba(255,255,255,.4);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        transition: all .2s ease;
+        box-shadow: none;
+      }
+
+      .crown-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .crown-btn.active {
+        color: #f6d47b;
+        background: rgba(246,212,123,.14);
+        border-color: rgba(246,212,123,.28);
+        box-shadow: 0 0 0 1px rgba(246,212,123,.08), 0 10px 24px rgba(201,154,46,.16);
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid, .stats, .grid2 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <h1>سيستم حضور وانصراف ومهام يومية</h1>
+            <p class="lead">
+              اختر اسمك ثم سجّل حضورك أو انصرافك أو مهمتك اليومية بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
+            </p>
+          </div>
+          <div class="hero-side">
+            <div class="clock">
+              <strong>الوقت الحالي</strong>
+              <span id="liveClock">--:--:--</span>
+              <small>{{ timezone_label }}</small>
+            </div>
+            <div class="date-card">
+              <div>شيت اليوم: <b id="sheetName">{{ today_sheet }}</b></div>
+              <div style="margin-top:8px">ملف العمل: <a class="status-link" href="{{ spreadsheet_url }}" target="_blank">افتح Google Sheet</a></div>
+            </div>
+            <div id="connectionCard" class="status-card status-ok">
+              <strong>تعليمات التسجيل</strong>
+              <div id="connectionText" style="margin-top:8px">سجّل حضورك أو انصرافك أو مهمتك اليومية، وكل عملية تُحفظ مرة واحدة فقط.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="stat"><div class="stat-label">إجمالي الموظفين</div><div class="stat-value" id="totalEmployees">5</div></div>
+        <div class="stat"><div class="stat-label">الحضور المسجّل</div><div class="stat-value" id="checkIns">0</div></div>
+        <div class="stat"><div class="stat-label">الانصراف المسجّل</div><div class="stat-value" id="checkOuts">0</div></div>
+        <div class="stat"><div class="stat-label">المهام المكتوبة</div><div class="stat-value" id="tasksCount">0</div></div>
+        <div class="stat"><div class="stat-label">اكتمل يومهم</div><div class="stat-value" id="completedCount">0</div></div>
+      </section>
+
+      <section class="layout">
+        <div class="panel">
+          <h2>التسجيل الفوري</h2>
+          <p>اختر الموظف ثم سجّل الحضور أو الانصراف أو اكتب مهمته اليومية. بعد الحفظ لن يكون التعديل متاحًا.</p>
+
+          <div class="grid2">
+            <div>
+              <label for="employeeSelect">الموظف</label>
+              <select id="employeeSelect">
+                <option value="EMP-001">EMP-001 — احمد صلاح بيومي</option>
+                <option value="EMP-002">EMP-002 — حميده محمد هنداوي</option>
+                <option value="EMP-003">EMP-003 — مارتينا عماد</option>
+                <option value="EMP-004">EMP-004 — فؤاد سيد</option>
+                <option value="EMP-005">EMP-005 — يوسف مهدي</option>
+              </select>
+            </div>
+            <div>
+              <label for="dayType">نوع اليوم</label>
+              <select id="dayType">
+                <option value="normal">يوم عادي</option>
+                <option value="busy">يوم ضغط</option>
+                <option value="review">يوم مراجعة</option>
+                <option value="sales">يوم مبيعات</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="footer-note" style="margin-top: 2px;">
+            حدّد نوع اليوم ليساعدك على تنظيم طبيعة الشغل قبل تسجيل الحضور أو المهام.
+          </div>
+
+          <div style="margin-top:14px;">
+            <label for="taskBox">المهمة اليومية</label>
+            <textarea id="taskBox" placeholder="اكتب المهمة اليومية هنا... وسيتم حفظها مرة واحدة فقط."></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn-gold" id="checkInBtn">تسجيل حضور</button>
+            <button class="btn-dark" id="saveTaskBtn">حفظ المهمة</button>
+            <button class="btn-danger" id="checkOutBtn">تسجيل انصراف</button>
+          </div>
+
+          <div id="messageBox" class="message"></div>
+
+          <div class="footer-note">
+            اختر اسمك ثم اضغط على الإجراء المطلوب مرة واحدة فقط، وسيتم حفظه ولا يمكن تعديله حتى الساعة 6 صباحًا.
+          </div>
+        </div>
+      </section>
+
+      <section class="table-card">
+        <h2 style="margin-top:0">قائمة الموظفين</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>رقم الموظف</th>
+                <th>اسم الموظف</th>
+                <th>موظف الشهر</th>
+                <th>الوظيفة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EMP-001</td>
+                <td>احمد صلاح بيومي</td>
+                <td><button type="button" class="crown-btn" data-employee-id="EMP-001" title="تفعيل موظف الشهر">👑</button></td>
+                <td><span class="job-tag">المدير التنفيذي والمالك</span></td>
+              </tr>
+              <tr>
+                <td>EMP-002</td>
+                <td>حميده محمد هنداوي</td>
+                <td><button type="button" class="crown-btn" data-employee-id="EMP-002" title="تفعيل موظف الشهر">👑</button></td>
+                <td><span class="job-tag">المستشار القانوني للشركة</span></td>
+              </tr>
+              <tr>
+                <td>EMP-003</td>
+                <td>مارتينا عماد</td>
+                <td><button type="button" class="crown-btn" data-employee-id="EMP-003" title="تفعيل موظف الشهر">👑</button></td>
+                <td><span class="job-tag">أخصائي مبيعات وتسويق عقاري</span></td>
+              </tr>
+              <tr>
+                <td>EMP-004</td>
+                <td>فؤاد سيد</td>
+                <td><button type="button" class="crown-btn" data-employee-id="EMP-004" title="تفعيل موظف الشهر">👑</button></td>
+                <td><span class="job-tag">منسق خدمات وتنفيذ ميداني</span></td>
+              </tr>
+              <tr>
+                <td>EMP-005</td>
+                <td>يوسف مهدي</td>
+                <td><button type="button" class="crown-btn" data-employee-id="EMP-005" title="تفعيل موظف الشهر">👑</button></td>
+                <td><span class="job-tag">مشرف خدمات ومرافق</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const liveClock = document.getElementById('liveClock');
+      const messageBox = document.getElementById('messageBox');
+      const employeeSelect = document.getElementById('employeeSelect');
+      const taskBox = document.getElementById('taskBox');
+      const dayTypeSelect = document.getElementById('dayType');
+      const crownButtons = Array.from(document.querySelectorAll('.crown-btn'));
+
+      const buttons = {
+        checkIn: document.getElementById('checkInBtn'),
+        checkOut: document.getElementById('checkOutBtn'),
+        task: document.getElementById('saveTaskBtn')
+      };
+
+      const actionMap = {
+        attendance: buttons.checkIn,
+        task: buttons.task,
+        checkout: buttons.checkOut
+      };
+
+      const employeeIds = ["EMP-001", "EMP-002", "EMP-003", "EMP-004", "EMP-005"];
+      const sessionState = {};
+
+      function updateClock() {
+        const now = new Date();
+        liveClock.textContent = now.toLocaleTimeString('ar-EG');
+      }
+
+      function showMessage(text, type = 'success') {
+        messageBox.textContent = text;
+        messageBox.className = `message ${type}`;
+      }
+
+      function getDayTypeLabel(value) {
+        const labels = {
+          normal: 'يوم عادي',
+          busy: 'يوم ضغط',
+          review: 'يوم مراجعة',
+          sales: 'يوم مبيعات'
+        };
+        return labels[value] || 'يوم عادي';
+      }
+
+      function saveDayType() {
+        localStorage.setItem('attendance_day_type', dayTypeSelect.value);
+      }
+
+      function loadDayType() {
+        const saved = localStorage.getItem('attendance_day_type');
+        if (saved) {
+          dayTypeSelect.value = saved;
+        }
+      }
+
+      function setBusy(isBusy) {
+        Object.values(buttons).forEach(btn => {
+          btn.disabled = isBusy;
+        });
+      }
+
+      function getUnlockTime(lockTime) {
+        const unlockTime = new Date(lockTime);
+        unlockTime.setDate(unlockTime.getDate() + 1);
+        unlockTime.setHours(6, 0, 0, 0);
+        return unlockTime;
+      }
+
+      function getActionLockKey(employeeId, action) {
+        return `attendance_lock_${employeeId}_${action}`;
+      }
+
+      function isActionLocked(employeeId, action) {
+        const saved = localStorage.getItem(getActionLockKey(employeeId, action));
+        if (!saved) return false;
+
+        const now = new Date();
+        const unlockTime = getUnlockTime(saved);
+
+        if (now >= unlockTime) {
+          localStorage.removeItem(getActionLockKey(employeeId, action));
+          return false;
+        }
+
+        return true;
+      }
+
+      function lockAction(employeeId, action) {
+        localStorage.setItem(getActionLockKey(employeeId, action), new Date().toISOString());
+      }
+
+      function applyLocksForEmployee(employeeId) {
+        const attendanceLocked = isActionLocked(employeeId, 'attendance');
+        const taskLocked = isActionLocked(employeeId, 'task');
+        const checkoutLocked = isActionLocked(employeeId, 'checkout');
+
+        buttons.checkIn.disabled = attendanceLocked;
+        buttons.task.disabled = taskLocked;
+        buttons.checkOut.disabled = checkoutLocked;
+        taskBox.disabled = taskLocked;
+      }
+
+      function updateSummary(summary, sheetName) {
+        if (!summary) return;
+        document.getElementById('sheetName').textContent = sheetName || document.getElementById('sheetName').textContent;
+        document.getElementById('totalEmployees').textContent = summary.total_employees;
+        document.getElementById('checkIns').textContent = summary.check_ins;
+        document.getElementById('checkOuts').textContent = summary.check_outs;
+        document.getElementById('tasksCount').textContent = summary.tasks;
+        document.getElementById('completedCount').textContent = summary.completed;
+      }
+
+      function recomputeFromSession() {
+        let checkIns = 0;
+        let checkOuts = 0;
+        let tasks = 0;
+        let completed = 0;
+
+        employeeIds.forEach(id => {
+          const s = sessionState[id] || {};
+          if (s.attendance || isActionLocked(id, 'attendance')) checkIns++;
+          if (s.checkout || isActionLocked(id, 'checkout')) checkOuts++;
+          if (s.task || isActionLocked(id, 'task')) tasks++;
+          if ((s.attendance || isActionLocked(id, 'attendance')) &&
+              (s.checkout || isActionLocked(id, 'checkout')) &&
+              (s.task || isActionLocked(id, 'task'))) {
+            completed++;
+          }
+        });
+
+        updateSummary({
+          total_employees: employeeIds.length,
+          check_ins: checkIns,
+          check_outs: checkOuts,
+          tasks: tasks,
+          completed: completed
+        }, document.getElementById('sheetName').textContent);
+      }
+
+      async function hit(url, payload) {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.message || 'حدث خطأ غير متوقع.');
+        return data;
+      }
+
+      function markSession(employeeId, action) {
+        if (!sessionState[employeeId]) sessionState[employeeId] = {};
+        sessionState[employeeId][action] = true;
+        lockAction(employeeId, action);
+        recomputeFromSession();
+        applyLocksForEmployee(employeeId);
+      }
+
+      function getEmployeeOfMonthKey() {
+        return 'employee_of_month_id';
+      }
+
+      function refreshEmployeeOfMonth() {
+        const activeId = localStorage.getItem(getEmployeeOfMonthKey());
+        crownButtons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.employeeId === activeId);
+        });
+      }
+
+      function activateEmployeeOfMonth(employeeId) {
+        const password = window.prompt('ادخل كلمة السر:');
+        if (password === null) return;
+
+        if (password !== '1525') {
+          showMessage('كلمة السر غير صحيحة.', 'error');
+          return;
+        }
+
+        localStorage.setItem(getEmployeeOfMonthKey(), employeeId);
+        refreshEmployeeOfMonth();
+        showMessage('تم تفعيل موظف الشهر بنجاح.', 'success');
+      }
+
+      crownButtons.forEach(btn => {
+        btn.addEventListener('click', () => activateEmployeeOfMonth(btn.dataset.employeeId));
+      });
+
+      buttons.checkIn.addEventListener('click', async () => {
+        const employeeId = employeeSelect.value;
+        if (isActionLocked(employeeId, 'attendance')) {
+          showMessage('تم تسجيل الحضور مسبقًا، وسيكون متاحًا مرة أخرى بعد الساعة 6 صباحًا.', 'error');
+          applyLocksForEmployee(employeeId);
+          return;
+        }
+
+        setBusy(true);
+        try {
+          const data = await hit('/api/check-in', { employee_id: employeeId, day_type: dayTypeSelect.value });
+          markSession(employeeId, 'attendance');
+          showMessage(data.message, 'success');
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
+        } catch (err) {
+          showMessage(err.message, 'error');
+        } finally {
+          setBusy(false);
+          applyLocksForEmployee(employeeId);
+        }
+      });
+
+      buttons.checkOut.addEventListener('click', async () => {
+        const employeeId = employeeSelect.value;
+        if (isActionLocked(employeeId, 'checkout')) {
+          showMessage('تم تسجيل الانصراف مسبقًا، وسيكون متاحًا مرة أخرى بعد الساعة 6 صباحًا.', 'error');
+          applyLocksForEmployee(employeeId);
+          return;
+        }
+
+        setBusy(true);
+        try {
+          const data = await hit('/api/check-out', { employee_id: employeeId, day_type: dayTypeSelect.value });
+          markSession(employeeId, 'checkout');
+          showMessage(data.message, 'success');
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
+        } catch (err) {
+          showMessage(err.message, 'error');
+        } finally {
+          setBusy(false);
+          applyLocksForEmployee(employeeId);
+        }
+      });
+
+      buttons.task.addEventListener('click', async () => {
+        const employeeId = employeeSelect.value;
+        if (isActionLocked(employeeId, 'task')) {
+          showMessage('تم حفظ المهمة مسبقًا، وسيكون متاحًا مرة أخرى بعد الساعة 6 صباحًا.', 'error');
+          applyLocksForEmployee(employeeId);
+          return;
+        }
+
+        setBusy(true);
+        try {
+          const data = await hit('/api/task', { employee_id: employeeId, task: taskBox.value, day_type: dayTypeSelect.value });
+          markSession(employeeId, 'task');
+          showMessage(data.message, 'success');
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
+          taskBox.value = '';
+        } catch (err) {
+          showMessage(err.message, 'error');
+        } finally {
+          setBusy(false);
+          applyLocksForEmployee(employeeId);
+        }
+      });
+
+      employeeSelect.addEventListener('change', () => {
+        applyLocksForEmployee(employeeSelect.value);
+      });
+
+      dayTypeSelect.addEventListener('change', () => {
+        saveDayType();
+        showMessage(`تم تحديد نوع اليوم: ${getDayTypeLabel(dayTypeSelect.value)}`, 'success');
+      });
+
+      async function loadState() {
+        try {
+          const res = await fetch('/api/state');
+          const data = await res.json();
+          document.getElementById('sheetName').textContent = data.sheet_name || document.getElementById('sheetName').textContent;
+        } catch (_) {}
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
+      loadDayType();
+      refreshEmployeeOfMonth();
+      recomputeFromSession();
+      applyLocksForEmployee(employeeSelect.value);
+      loadState();
+    </script>
+  </body>
+</html>
