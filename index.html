@@ -204,6 +204,19 @@
         resize: vertical;
       }
 
+      .tasks-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .task-item {
+        min-height: 72px;
+        resize: vertical;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
       .actions {
         display: flex;
         flex-wrap: wrap;
@@ -392,23 +405,30 @@
               </select>
             </div>
             <div>
-              <label for="dayType">نوع اليوم</label>
-              <select id="dayType">
-                <option value="normal">يوم عادي</option>
-                <option value="busy">يوم ضغط</option>
-                <option value="review">يوم مراجعة</option>
-                <option value="sales">يوم مبيعات</option>
+              <label for="attendanceMode">وضع الدوام</label>
+              <select id="attendanceMode">
+                <option value="morning">حضور صباحي</option>
+                <option value="evening">حضور مسائي</option>
+                <option value="half">نصف يوم</option>
+                <option value="field">عمل ميداني</option>
+                <option value="off">إجازة رسمية</option>
               </select>
             </div>
           </div>
 
           <div class="footer-note" style="margin-top: 2px;">
-            حدّد نوع اليوم ليساعدك على تنظيم طبيعة الشغل قبل تسجيل الحضور أو المهام.
+            حدّد وضع دوامك اليومي بدقة لضمان تسجيل الحضور والانصراف بالشكل الصحيح داخل النظام.
           </div>
 
           <div style="margin-top:14px;">
-            <label for="taskBox">المهمة اليومية</label>
-            <textarea id="taskBox" placeholder="اكتب المهمة اليومية هنا... وسيتم حفظها مرة واحدة فقط."></textarea>
+            <label>المهام اليومية (5 مهام)</label>
+            <div class="tasks-grid">
+              <textarea class="task-item" id="task1" placeholder="المهمة 1"></textarea>
+              <textarea class="task-item" id="task2" placeholder="المهمة 2"></textarea>
+              <textarea class="task-item" id="task3" placeholder="المهمة 3"></textarea>
+              <textarea class="task-item" id="task4" placeholder="المهمة 4"></textarea>
+              <textarea class="task-item" id="task5" placeholder="المهمة 5"></textarea>
+            </div>
           </div>
 
           <div class="actions">
@@ -487,8 +507,14 @@
       const liveClock = document.getElementById('liveClock');
       const messageBox = document.getElementById('messageBox');
       const employeeSelect = document.getElementById('employeeSelect');
-      const taskBox = document.getElementById('taskBox');
-      const dayTypeSelect = document.getElementById('dayType');
+      const taskInputs = [
+        document.getElementById('task1'),
+        document.getElementById('task2'),
+        document.getElementById('task3'),
+        document.getElementById('task4'),
+        document.getElementById('task5')
+      ];
+      const attendanceModeSelect = document.getElementById('attendanceMode');
       const crownButtons = Array.from(document.querySelectorAll('.crown-btn'));
 
       const buttons = {
@@ -515,24 +541,25 @@
         messageBox.className = `message ${type}`;
       }
 
-      function getDayTypeLabel(value) {
+      function getAttendanceModeLabel(value) {
         const labels = {
-          normal: 'يوم عادي',
-          busy: 'يوم ضغط',
-          review: 'يوم مراجعة',
-          sales: 'يوم مبيعات'
+          morning: 'حضور صباحي',
+          evening: 'حضور مسائي',
+          half: 'نصف يوم',
+          field: 'عمل ميداني',
+          off: 'إجازة رسمية'
         };
-        return labels[value] || 'يوم عادي';
+        return labels[value] || 'حضور صباحي';
       }
 
-      function saveDayType() {
-        localStorage.setItem('attendance_day_type', dayTypeSelect.value);
+      function saveAttendanceMode() {
+        localStorage.setItem('attendance_mode', attendanceModeSelect.value);
       }
 
-      function loadDayType() {
-        const saved = localStorage.getItem('attendance_day_type');
+      function loadAttendanceMode() {
+        const saved = localStorage.getItem('attendance_mode');
         if (saved) {
-          dayTypeSelect.value = saved;
+          attendanceModeSelect.value = saved;
         }
       }
 
@@ -580,7 +607,7 @@
         buttons.checkIn.disabled = attendanceLocked;
         buttons.task.disabled = taskLocked;
         buttons.checkOut.disabled = checkoutLocked;
-        taskBox.disabled = taskLocked;
+        taskInputs.forEach(input => input.disabled = taskLocked);
       }
 
       function updateSummary() {
@@ -719,7 +746,7 @@
             employee: EMPLOYEE_MAP[employeeId],
             action: 'attendance',
             task: '',
-            day_type: dayTypeSelect.value
+            attendance_mode: attendanceModeSelect.value
           });
           markSession(employeeId, 'attendance');
           showMessage(data.message || 'تم تسجيل الحضور بنجاح.', 'success');
@@ -746,7 +773,7 @@
             employee: EMPLOYEE_MAP[employeeId],
             action: 'checkout',
             task: '',
-            day_type: dayTypeSelect.value
+            attendance_mode: attendanceModeSelect.value
           });
           markSession(employeeId, 'checkout');
           showMessage(data.message || 'تم تسجيل الانصراف بنجاح.', 'success');
@@ -767,11 +794,19 @@
           return;
         }
 
-        const task = taskBox.value.trim();
-        if (!task) {
-          showMessage('اكتب المهمة اليومية أولاً.', 'error');
+        const tasks = taskInputs
+          .map((input, index) => {
+            const value = input.value.trim();
+            return value ? `المهمة ${index + 1}: ${value}` : '';
+          })
+          .filter(Boolean);
+
+        if (!tasks.length) {
+          showMessage('اكتب مهمة واحدة على الأقل.', 'error');
           return;
         }
+
+        const task = tasks.join(' | ');
 
         setBusy(true);
         try {
@@ -779,12 +814,12 @@
             employee: EMPLOYEE_MAP[employeeId],
             action: 'task',
             task,
-            day_type: dayTypeSelect.value
+            attendance_mode: attendanceModeSelect.value
           });
           markSession(employeeId, 'task');
           showMessage(data.message || 'تم حفظ المهمة بنجاح.', 'success');
           document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
-          taskBox.value = '';
+          taskInputs.forEach(input => input.value = '');
         } catch (err) {
           showMessage(err.message, 'error');
         } finally {
@@ -797,14 +832,14 @@
         applyLocksForEmployee(employeeSelect.value);
       });
 
-      dayTypeSelect.addEventListener('change', () => {
-        saveDayType();
-        showMessage(`تم تحديد نوع اليوم: ${getDayTypeLabel(dayTypeSelect.value)}`, 'success');
+      attendanceModeSelect.addEventListener('change', () => {
+        saveAttendanceMode();
+        showMessage(`تم تحديد وضع الدوام: ${getAttendanceModeLabel(attendanceModeSelect.value)}`, 'success');
       });
 
       updateClock();
       setInterval(updateClock, 1000);
-      loadDayType();
+      loadAttendanceMode();
       refreshEmployeeOfMonth();
       updateSummary();
       applyLocksForEmployee(employeeSelect.value);
