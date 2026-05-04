@@ -80,6 +80,84 @@
         gap: 20px;
       }
 
+      
+      .hero-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .logo-card {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+
+      .logo-card img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+      }
+
+      
+      .hero-grid-custom {
+        display: grid;
+        grid-template-columns: 1.5fr 0.7fr;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .hero-text h1 {
+        font-size: clamp(30px, 4vw, 50px);
+        margin-bottom: 10px;
+      }
+
+      .hero-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .logo-glass {
+        width: 140px;
+        height: 140px;
+        border-radius: 24px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(14px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      }
+
+      .logo-glass img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+      }
+
+      .hero-btn {
+        width: 100%;
+        max-width: 160px;
+      }
+
+      @media (max-width: 768px) {
+        .hero-grid-custom {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+      }
+
       .hero h1 {
         margin: 0 0 12px;
         font-size: clamp(28px, 4vw, 48px);
@@ -202,6 +280,19 @@
       textarea {
         min-height: 180px;
         resize: vertical;
+      }
+
+      .tasks-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .task-item {
+        min-height: 72px;
+        resize: vertical;
+        font-size: 15px;
+        line-height: 1.7;
       }
 
       .actions {
@@ -332,92 +423,6 @@
         box-shadow: 0 0 0 1px rgba(246,212,123,.08), 0 10px 24px rgba(201,154,46,.16);
       }
 
-
-      /* Hero separated glass cards */
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1.05fr 1.6fr;
-        gap: 20px;
-        align-items: stretch;
-      }
-
-      .hero-title-card,
-      .hero-logo-card,
-      .hero-side .clock,
-      .hero-side .date-card,
-      .hero-side .status-card {
-        background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
-        border: 1px solid rgba(255,255,255,.08);
-        backdrop-filter: blur(14px);
-        box-shadow: 0 18px 50px rgba(0,0,0,.22);
-      }
-
-      .hero-title-card {
-        border-radius: 24px;
-        padding: 26px 28px;
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .hero-title-card h1 {
-        margin: 0 0 12px;
-        font-size: clamp(30px, 4vw, 52px);
-        line-height: 1.12;
-      }
-
-      .hero-logo-card {
-        border-radius: 24px;
-        padding: 18px;
-        min-height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-logo-card::after {
-        content: "";
-        position: absolute;
-        width: 190px;
-        height: 190px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(246,212,123,.20), transparent 70%);
-        filter: blur(8px);
-      }
-
-      .hero-logo-card img {
-        position: relative;
-        z-index: 1;
-        width: min(155px, 78%);
-        aspect-ratio: 1 / 1;
-        object-fit: contain;
-        border-radius: 18px;
-        filter: drop-shadow(0 18px 32px rgba(0,0,0,.45));
-      }
-
-      .hero-main-split {
-        display: grid;
-        grid-template-columns: 1fr 180px;
-        gap: 18px;
-        align-items: stretch;
-      }
-
-      @media (max-width: 980px) {
-        .hero-grid,
-        .hero-main-split,
-        .stats,
-        .grid2 {
-          grid-template-columns: 1fr;
-        }
-
-        .hero-logo-card {
-          min-height: 190px;
-        }
-      }
-
       @media (max-width: 980px) {
         .hero-grid, .stats, .grid2 {
           grid-template-columns: 1fr;
@@ -429,11 +434,25 @@
     <div class="container">
       <section class="hero">
         <div class="hero-grid">
-          <div>
-            <h1>سيستم حضور وانصراف ومهام يومية</h1>
-            <p class="lead">
-              اختر اسمك ثم سجّل حضورك أو انصرافك أو مهمتك اليومية بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
-            </p>
+          <div class="hero-grid-custom">
+
+            <div class="hero-text">
+              <h1>سيستم حضور وانصراف ومهام يومية</h1>
+              <p class="lead">
+                اختر اسمك ثم سجّل حضورك أو انصرافك أو مهامك اليومية بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
+              </p>
+            </div>
+
+            <div class="hero-box">
+              <div class="logo-glass">
+                <img src="./icon-512.png" alt="logo">
+              </div>
+
+              <button class="btn-gold hero-btn">
+                دخول النظام
+              </button>
+            </div>
+
           </div>
           <div class="hero-side">
             <div class="clock">
@@ -478,23 +497,30 @@
               </select>
             </div>
             <div>
-              <label for="dayType">نوع اليوم</label>
-              <select id="dayType">
-                <option value="normal">يوم عادي</option>
-                <option value="busy">يوم ضغط</option>
-                <option value="review">يوم مراجعة</option>
-                <option value="sales">يوم مبيعات</option>
+              <label for="attendanceMode">وضع الدوام</label>
+              <select id="attendanceMode">
+                <option value="morning">حضور صباحي</option>
+                <option value="evening">حضور مسائي</option>
+                <option value="half">نصف يوم</option>
+                <option value="field">عمل ميداني</option>
+                <option value="off">إجازة رسمية</option>
               </select>
             </div>
           </div>
 
           <div class="footer-note" style="margin-top: 2px;">
-            حدّد نوع اليوم ليساعدك على تنظيم طبيعة الشغل قبل تسجيل الحضور أو المهام.
+            حدّد وضع دوامك اليومي بدقة لضمان تسجيل الحضور والانصراف بالشكل الصحيح داخل النظام.
           </div>
 
           <div style="margin-top:14px;">
-            <label for="taskBox">المهمة اليومية</label>
-            <textarea id="taskBox" placeholder="اكتب المهمة اليومية هنا... وسيتم حفظها مرة واحدة فقط."></textarea>
+            <label>المهام اليومية (5 مهام)</label>
+            <div class="tasks-grid">
+              <textarea class="task-item" id="task1" placeholder="المهمة 1"></textarea>
+              <textarea class="task-item" id="task2" placeholder="المهمة 2"></textarea>
+              <textarea class="task-item" id="task3" placeholder="المهمة 3"></textarea>
+              <textarea class="task-item" id="task4" placeholder="المهمة 4"></textarea>
+              <textarea class="task-item" id="task5" placeholder="المهمة 5"></textarea>
+            </div>
           </div>
 
           <div class="actions">
@@ -573,8 +599,14 @@
       const liveClock = document.getElementById('liveClock');
       const messageBox = document.getElementById('messageBox');
       const employeeSelect = document.getElementById('employeeSelect');
-      const taskBox = document.getElementById('taskBox');
-      const dayTypeSelect = document.getElementById('dayType');
+      const taskInputs = [
+        document.getElementById('task1'),
+        document.getElementById('task2'),
+        document.getElementById('task3'),
+        document.getElementById('task4'),
+        document.getElementById('task5')
+      ];
+      const attendanceModeSelect = document.getElementById('attendanceMode');
       const crownButtons = Array.from(document.querySelectorAll('.crown-btn'));
 
       const buttons = {
@@ -601,24 +633,25 @@
         messageBox.className = `message ${type}`;
       }
 
-      function getDayTypeLabel(value) {
+      function getAttendanceModeLabel(value) {
         const labels = {
-          normal: 'يوم عادي',
-          busy: 'يوم ضغط',
-          review: 'يوم مراجعة',
-          sales: 'يوم مبيعات'
+          morning: 'حضور صباحي',
+          evening: 'حضور مسائي',
+          half: 'نصف يوم',
+          field: 'عمل ميداني',
+          off: 'إجازة رسمية'
         };
-        return labels[value] || 'يوم عادي';
+        return labels[value] || 'حضور صباحي';
       }
 
-      function saveDayType() {
-        localStorage.setItem('attendance_day_type', dayTypeSelect.value);
+      function saveAttendanceMode() {
+        localStorage.setItem('attendance_mode', attendanceModeSelect.value);
       }
 
-      function loadDayType() {
-        const saved = localStorage.getItem('attendance_day_type');
+      function loadAttendanceMode() {
+        const saved = localStorage.getItem('attendance_mode');
         if (saved) {
-          dayTypeSelect.value = saved;
+          attendanceModeSelect.value = saved;
         }
       }
 
@@ -666,7 +699,7 @@
         buttons.checkIn.disabled = attendanceLocked;
         buttons.task.disabled = taskLocked;
         buttons.checkOut.disabled = checkoutLocked;
-        taskBox.disabled = taskLocked;
+        taskInputs.forEach(input => input.disabled = taskLocked);
       }
 
       function updateSummary() {
@@ -805,7 +838,7 @@
             employee: EMPLOYEE_MAP[employeeId],
             action: 'attendance',
             task: '',
-            day_type: dayTypeSelect.value
+            attendance_mode: attendanceModeSelect.value
           });
           markSession(employeeId, 'attendance');
           showMessage(data.message || 'تم تسجيل الحضور بنجاح.', 'success');
@@ -832,7 +865,7 @@
             employee: EMPLOYEE_MAP[employeeId],
             action: 'checkout',
             task: '',
-            day_type: dayTypeSelect.value
+            attendance_mode: attendanceModeSelect.value
           });
           markSession(employeeId, 'checkout');
           showMessage(data.message || 'تم تسجيل الانصراف بنجاح.', 'success');
@@ -853,11 +886,19 @@
           return;
         }
 
-        const task = taskBox.value.trim();
-        if (!task) {
-          showMessage('اكتب المهمة اليومية أولاً.', 'error');
+        const tasks = taskInputs
+          .map((input, index) => {
+            const value = input.value.trim();
+            return value ? `المهمة ${index + 1}: ${value}` : '';
+          })
+          .filter(Boolean);
+
+        if (!tasks.length) {
+          showMessage('اكتب مهمة واحدة على الأقل.', 'error');
           return;
         }
+
+        const task = tasks.join(' | ');
 
         setBusy(true);
         try {
@@ -865,12 +906,12 @@
             employee: EMPLOYEE_MAP[employeeId],
             action: 'task',
             task,
-            day_type: dayTypeSelect.value
+            attendance_mode: attendanceModeSelect.value
           });
           markSession(employeeId, 'task');
           showMessage(data.message || 'تم حفظ المهمة بنجاح.', 'success');
           document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
-          taskBox.value = '';
+          taskInputs.forEach(input => input.value = '');
         } catch (err) {
           showMessage(err.message, 'error');
         } finally {
@@ -883,14 +924,14 @@
         applyLocksForEmployee(employeeSelect.value);
       });
 
-      dayTypeSelect.addEventListener('change', () => {
-        saveDayType();
-        showMessage(`تم تحديد نوع اليوم: ${getDayTypeLabel(dayTypeSelect.value)}`, 'success');
+      attendanceModeSelect.addEventListener('change', () => {
+        saveAttendanceMode();
+        showMessage(`تم تحديد وضع الدوام: ${getAttendanceModeLabel(attendanceModeSelect.value)}`, 'success');
       });
 
       updateClock();
       setInterval(updateClock, 1000);
-      loadDayType();
+      loadAttendanceMode();
       refreshEmployeeOfMonth();
       updateSummary();
       applyLocksForEmployee(employeeSelect.value);
