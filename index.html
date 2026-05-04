@@ -480,6 +480,10 @@
         font-weight: 600;
       }
 
+      .gold-label {
+        color: var(--gold-1);
+      }
+
       select, textarea {
         width: 100%;
         border: none;
@@ -731,7 +735,7 @@
 
           <div class="grid2">
             <div>
-              <label for="employeeSelect">الموظف</label>
+              <label for="employeeSelect" class="gold-label">الموظف</label>
               <select id="employeeSelect">
                 <option value="EMP-001">EMP-001 — احمد صلاح بيومي</option>
                 <option value="EMP-002">EMP-002 — حميده محمد هنداوي</option>
@@ -741,7 +745,7 @@
               </select>
             </div>
             <div>
-              <label for="attendanceMode">وضع الدوام</label>
+              <label for="attendanceMode" class="gold-label">وضع الدوام</label>
               <select id="attendanceMode">
                 <option value="morning">حضور صباحي</option>
                 <option value="evening">حضور مسائي</option>
@@ -757,7 +761,7 @@
           </div>
 
           <div style="margin-top:14px;">
-            <label>المهام اليومية (5 مهام)</label>
+            <label class="gold-label">المهام اليومية (5 مهام)</label>
             <div class="tasks-grid">
               <textarea class="task-item" id="task1" placeholder="المهمة 1"></textarea>
               <textarea class="task-item" id="task2" placeholder="المهمة 2"></textarea>
