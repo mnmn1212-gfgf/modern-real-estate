@@ -381,14 +381,8 @@
       label {
         display: block;
         margin-bottom: 8px;
-        width: fit-content;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--gold-1) 0%, #fff1b8 40%, var(--gold-2) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 16px rgba(246, 212, 123, 0.16);
+        color: #f9fafb;
+        font-weight: 600;
       }
 
       select, textarea {
@@ -527,25 +521,24 @@
 
       th { color: #ffffff; }
 
-      table tbody td:first-child {
-        width: fit-content;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--gold-1) 0%, #fff1b8 40%, var(--gold-2) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 16px rgba(246, 212, 123, 0.16);
-      }
-
       .job-tag {
         display: inline-flex;
         align-items: center;
-        padding: 8px 12px;
+        justify-content: center;
+        padding: 9px 16px;
         border-radius: 999px;
-        background: rgba(246,212,123,.14);
-        color: #fde68a;
-        border: 1px solid rgba(246,212,123,.14);
+        font-weight: 800;
+        line-height: 1.35;
+        background:
+          linear-gradient(180deg, rgba(246, 212, 123, 0.16), rgba(201, 154, 46, 0.08)),
+          rgba(255, 255, 255, 0.035);
+        border: 1px solid rgba(246, 212, 123, 0.42);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.10),
+          0 0 0 1px rgba(201, 154, 46, 0.08),
+          0 10px 24px rgba(201, 154, 46, 0.12);
+        color: var(--gold-1);
+        text-shadow: 0 0 14px rgba(246, 212, 123, 0.18);
       }
 
       .crown-btn {
