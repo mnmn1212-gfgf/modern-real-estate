@@ -210,27 +210,28 @@
       }
 
       .hero-title-logo {
-        width: clamp(154px, 17vw, 210px);
+        width: clamp(230px, 22vw, 300px);
         aspect-ratio: 1 / 1;
-        margin: 0 auto 34px;
-        padding: clamp(14px, 1.6vw, 22px);
+        margin: 0 auto 24px;
+        padding: clamp(4px, 0.7vw, 8px);
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         background:
-          radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.18), transparent 36%),
-          linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035));
+          radial-gradient(circle at 30% 16%, rgba(255, 255, 255, 0.18), transparent 34%),
+          radial-gradient(circle at 72% 82%, rgba(246, 212, 123, 0.10), transparent 44%),
+          linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.026));
         border: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 50%;
         box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.18),
-          inset 0 -22px 42px rgba(255, 255, 255, 0.035),
-          0 0 0 1px rgba(246, 212, 123, 0.14),
-          0 18px 48px rgba(0, 0, 0, 0.34),
-          0 0 42px rgba(246, 212, 123, 0.13);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+          inset 0 1px 0 rgba(255, 255, 255, 0.20),
+          inset 0 -20px 34px rgba(255, 255, 255, 0.035),
+          0 0 0 1px rgba(246, 212, 123, 0.16),
+          0 18px 46px rgba(0, 0, 0, 0.34),
+          0 0 34px rgba(246, 212, 123, 0.12);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         overflow: visible;
         isolation: isolate;
       }
@@ -240,56 +241,50 @@
         content: "";
         position: absolute;
         pointer-events: none;
+        border-radius: 50%;
       }
 
       .hero-title-logo::before {
-        inset: 8px;
-        border-radius: 50%;
-        border: 1px solid rgba(246, 212, 123, 0.20);
+        inset: 7px;
+        border: 1px solid rgba(246, 212, 123, 0.28);
         background:
-          radial-gradient(circle at 50% 0%, rgba(246, 212, 123, 0.11), transparent 48%),
-          linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.01));
+          radial-gradient(circle at 50% 3%, rgba(246, 212, 123, 0.11), transparent 48%),
+          linear-gradient(180deg, rgba(255,255,255,0.052), rgba(255,255,255,0.008));
         box-shadow:
-          inset 0 0 26px rgba(255, 255, 255, 0.045),
-          inset 0 0 20px rgba(246, 212, 123, 0.05);
+          inset 0 0 24px rgba(255, 255, 255, 0.050),
+          inset 0 0 24px rgba(246, 212, 123, 0.060);
         z-index: 0;
       }
 
       .hero-title-logo::after {
-        width: 76%;
-        height: 28%;
-        left: 50%;
-        bottom: -22px;
-        transform: translateX(-50%);
-        border-radius: 999px / 72%;
+        inset: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.075);
         background:
-          radial-gradient(ellipse at center, rgba(255,255,255,0.16), rgba(246, 212, 123, 0.10) 42%, rgba(255,255,255,0.02) 72%),
-          linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.018));
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,0.13),
-          0 16px 32px rgba(0,0,0,0.24),
-          0 0 24px rgba(246, 212, 123, 0.10);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        z-index: 0;
+          radial-gradient(circle at 28% 16%, rgba(255,255,255,0.18), transparent 26%),
+          radial-gradient(circle at center, transparent 61%, rgba(255,255,255,0.052) 63%, transparent 68%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+        z-index: 1;
       }
 
       .hero-title-logo img {
-        width: 82%;
+        width: 94%;
+        max-width: 94%;
         height: auto;
         object-fit: contain;
         display: block;
         position: relative;
         z-index: 2;
-        filter: drop-shadow(0 12px 20px rgba(0,0,0,0.26));
+        filter: drop-shadow(0 12px 18px rgba(0,0,0,0.30));
       }
 
       .hero h1 {
         margin: 0 0 18px;
-        padding: 0 0 12px;
+        padding: 10px 28px 15px;
         display: inline-block;
+        position: relative;
+        isolation: isolate;
         overflow: visible;
+        border-radius: 999px;
         font-size: clamp(34px, 4.2vw, 58px);
         line-height: 1.28;
         letter-spacing: -0.4px;
@@ -301,6 +296,37 @@
         text-shadow:
           0 8px 24px rgba(0,0,0,0.28),
           0 0 26px rgba(246,212,123,0.16);
+      }
+
+      .hero h1::before,
+      .hero h1::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        border-radius: inherit;
+        z-index: -1;
+      }
+
+      .hero h1::before {
+        inset: 0;
+        background:
+          radial-gradient(circle at 30% 12%, rgba(255,255,255,0.13), transparent 38%),
+          linear-gradient(180deg, rgba(255,255,255,0.072), rgba(255,255,255,0.018));
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.11),
+          0 14px 32px rgba(0,0,0,0.18),
+          0 0 0 1px rgba(246, 212, 123, 0.10);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .hero h1::after {
+        left: 14%;
+        right: 14%;
+        top: 7px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.38), transparent);
       }
 
       .lead {
@@ -355,14 +381,19 @@
         }
 
         .hero-title-logo {
-          width: 138px;
-          margin-bottom: 28px;
-          padding: 14px;
+          width: 190px;
+          margin-bottom: 22px;
+          padding: 5px;
+        }
+
+        .hero-title-logo::before {
+          inset: 6px;
         }
 
         .hero-title-logo::after {
-          bottom: -18px;
+          inset: 14px;
         }
+
 
         .hero h1 {
           font-size: clamp(30px, 8vw, 46px);
