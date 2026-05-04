@@ -93,7 +93,7 @@
 
       .hero-grid {
         display: grid;
-        grid-template-columns: minmax(280px, 0.95fr) minmax(420px, 1.28fr) minmax(150px, 0.38fr);
+        grid-template-columns: minmax(280px, 0.95fr) minmax(520px, 1.35fr);
         gap: 22px;
         align-items: stretch;
         position: relative;
@@ -186,7 +186,35 @@
       }
 
       .hero-main-content {
-        max-width: 620px;
+        max-width: 700px;
+      }
+
+      .hero-title-logo {
+        width: clamp(108px, 13vw, 150px);
+        height: clamp(108px, 13vw, 150px);
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03)),
+          rgba(255,255,255,0.04);
+        border: 1px solid rgba(246, 212, 123, 0.24);
+        box-shadow:
+          0 18px 42px rgba(0,0,0,0.32),
+          0 0 34px rgba(246,212,123,0.12),
+          inset 0 1px 0 rgba(255,255,255,0.08);
+        overflow: hidden;
+      }
+
+      .hero-title-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        filter: drop-shadow(0 10px 18px rgba(0,0,0,0.35));
       }
 
       .hero h1 {
@@ -204,41 +232,6 @@
         margin: 0 auto;
         max-width: 52ch;
       }
-
-      .logo-side {
-        display: flex;
-      }
-
-      .logo-card {
-        min-height: 100%;
-        width: 100%;
-        padding: 24px 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .logo-frame {
-        width: 142px;
-        height: 142px;
-        border-radius: 28px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
-        border: 1px solid rgba(255,255,255,0.16);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,0.08),
-          0 16px 32px rgba(0,0,0,0.28),
-          0 0 34px rgba(246,212,123,0.10);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .logo-frame img {
-        width: 82%;
-        height: 82%;
-        object-fit: contain;
-      }
-
       .status-ok { color: #86efac; }
       .status-error { color: #fca5a5; }
 
@@ -254,17 +247,7 @@
 
       @media (max-width: 1120px) {
         .hero-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .logo-side {
-          grid-column: 1 / -1;
-          justify-content: center;
-        }
-
-        .logo-card {
-          max-width: 220px;
-          min-height: 190px;
+          grid-template-columns: 1fr;
         }
       }
 
@@ -282,12 +265,14 @@
           padding: 28px 24px;
         }
 
-        .logo-side {
+        .hero-side {
           order: 2;
         }
 
-        .hero-side {
-          order: 3;
+        .hero-title-logo {
+          width: 104px;
+          height: 104px;
+          margin-bottom: 18px;
         }
 
         .hero h1 {
@@ -556,18 +541,13 @@
 
           <div class="hero-glass-card hero-main">
             <div class="hero-main-content">
+              <div class="hero-title-logo">
+                <img src="./icon-512.png" alt="Modern Real Estate logo">
+              </div>
               <h1>سيستم حضور وانصراف<br>ومهام يومية</h1>
               <p class="lead">
                 اختر اسمك ثم سجّل حضورك أو انصرافك أو مهامك اليومية بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
               </p>
-            </div>
-          </div>
-
-          <div class="logo-side">
-            <div class="hero-glass-card logo-card">
-              <div class="logo-frame">
-                <img src="./icon-512.png" alt="logo">
-              </div>
             </div>
           </div>
         </div>
