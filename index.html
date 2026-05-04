@@ -266,9 +266,16 @@
       .status-error { color: #fca5a5; }
 
       .status-link {
-        color: #fde68a;
+        display: inline-block;
+        width: fit-content;
+        background: linear-gradient(135deg, var(--gold-1) 0%, #fff1b8 40%, var(--gold-2) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
         text-decoration: none;
-        font-weight: 700;
+        font-weight: 800;
+        text-shadow: 0 0 16px rgba(246, 212, 123, 0.18);
       }
 
       .status-link:hover {
