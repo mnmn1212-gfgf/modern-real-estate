@@ -529,6 +529,59 @@
         line-height: 1.7;
       }
 
+      .daily-report-box {
+        margin-top: 14px;
+        padding: 16px;
+        border-radius: 22px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018)),
+          rgba(255, 255, 255, 0.022);
+        border: 1px solid rgba(246, 212, 123, 0.14);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      }
+
+      .report-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .report-group.full {
+        grid-column: 1 / -1;
+      }
+
+      .report-label {
+        color: var(--gold-1);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .report-field {
+        min-height: 92px;
+        resize: vertical;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .report-field.large {
+        min-height: 118px;
+      }
+
+      .btn-copy {
+        background: rgba(246, 212, 123, 0.12);
+        color: var(--gold-1);
+        border: 1px solid rgba(246, 212, 123, 0.34);
+        box-shadow: none;
+      }
+
+      .report-hint {
+        margin-top: 10px;
+        color: #dbe5f2;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
       .actions {
         display: flex;
         flex-wrap: wrap;
@@ -676,8 +729,12 @@
       }
 
       @media (max-width: 980px) {
-        .hero-grid, .stats, .grid2 {
+        .hero-grid, .stats, .grid2, .report-grid {
           grid-template-columns: 1fr;
+        }
+
+        .report-group.full {
+          grid-column: auto;
         }
       }
     </style>
@@ -731,7 +788,7 @@
       <section class="layout">
         <div class="panel">
           <h2>التسجيل الفوري</h2>
-          <p>اختر الموظف ثم سجّل الحضور أو الانصراف أو اكتب مهمته اليومية. بعد الحفظ لن يكون التعديل متاحًا.</p>
+          <p>اختر الموظف ثم سجّل الحضور أو الانصراف أو اكتب تقرير مهامه اليومية. بعد الحفظ لن يكون التعديل متاحًا.</p>
 
           <div class="grid2">
             <div>
@@ -760,27 +817,62 @@
             حدّد وضع دوامك اليومي بدقة لضمان تسجيل الحضور والانصراف بالشكل الصحيح داخل النظام.
           </div>
 
-          <div style="margin-top:14px;">
-            <label class="gold-label">المهام اليومية (5 مهام)</label>
-            <div class="tasks-grid">
+          <div class="daily-report-box">
+            <label class="gold-label">تقرير مهام اليوم</label>
+            <div class="report-hint">اكتب مهامك اليومية بشكل منظم، وسيتم حفظها كتقرير عمل يومي مرتبط بالحضور والانصراف.</div>
+
+            <div class="tasks-grid" style="margin-top:12px;">
               <textarea class="task-item" id="task1" placeholder="المهمة 1"></textarea>
               <textarea class="task-item" id="task2" placeholder="المهمة 2"></textarea>
               <textarea class="task-item" id="task3" placeholder="المهمة 3"></textarea>
               <textarea class="task-item" id="task4" placeholder="المهمة 4"></textarea>
               <textarea class="task-item" id="task5" placeholder="المهمة 5"></textarea>
             </div>
+
+            <div class="report-grid">
+              <div class="report-group full">
+                <label class="report-label" for="taskResults">المهام والنتائج</label>
+                <textarea class="report-field large" id="taskResults" placeholder="اكتب أهم النتائج التي تم تحقيقها اليوم"></textarea>
+              </div>
+
+              <div class="report-group">
+                <label class="report-label" for="clientWork">العملاء والمتابعات</label>
+                <textarea class="report-field" id="clientWork" placeholder="اكتب باختصار العملاء أو المتابعات التي تمت اليوم"></textarea>
+              </div>
+
+              <div class="report-group">
+                <label class="report-label" for="inspectionWork">المعاينات</label>
+                <textarea class="report-field" id="inspectionWork" placeholder="عدد المعاينات ونتيجتها إن وجد"></textarea>
+              </div>
+
+              <div class="report-group">
+                <label class="report-label" for="adsWork">الإعلانات</label>
+                <textarea class="report-field" id="adsWork" placeholder="ما تم نشره ومستوى التفاعل"></textarea>
+              </div>
+
+              <div class="report-group">
+                <label class="report-label" for="meetingsWork">الاجتماعات</label>
+                <textarea class="report-field" id="meetingsWork" placeholder="أي اجتماع أو تنسيق داخلي تم اليوم"></textarea>
+              </div>
+
+              <div class="report-group full">
+                <label class="report-label" for="notesWork">الملاحظات</label>
+                <textarea class="report-field" id="notesWork" placeholder="أي ملاحظات مهمة تخص اليوم"></textarea>
+              </div>
+            </div>
           </div>
 
           <div class="actions">
             <button class="btn-gold" id="checkInBtn">تسجيل حضور</button>
-            <button class="btn-dark" id="saveTaskBtn">حفظ المهمة</button>
+            <button class="btn-dark" id="saveTaskBtn">حفظ تقرير المهام</button>
             <button class="btn-danger" id="checkOutBtn">تسجيل انصراف</button>
+            <button class="btn-copy" id="copyReportBtn" type="button">نسخ تقرير اليوم</button>
           </div>
 
           <div id="messageBox" class="message"></div>
 
           <div class="footer-note">
-            اختر اسمك ثم اضغط على الإجراء المطلوب مرة واحدة فقط، وسيتم حفظه ولا يمكن تعديله حتى الساعة 6 صباحًا.
+            اختر اسمك ثم اضغط على الإجراء المطلوب مرة واحدة فقط، وبعد حفظ تقرير المهام يمكنك نسخ تقرير اليوم جاهزًا للإدارة.
           </div>
         </div>
       </section>
@@ -856,6 +948,15 @@
       ];
       const attendanceModeSelect = document.getElementById('attendanceMode');
       const crownButtons = Array.from(document.querySelectorAll('.crown-btn'));
+      const reportInputs = {
+        taskResults: document.getElementById('taskResults'),
+        clientWork: document.getElementById('clientWork'),
+        inspectionWork: document.getElementById('inspectionWork'),
+        adsWork: document.getElementById('adsWork'),
+        meetingsWork: document.getElementById('meetingsWork'),
+        notesWork: document.getElementById('notesWork')
+      };
+      const copyReportBtn = document.getElementById('copyReportBtn');
 
       const buttons = {
         checkIn: document.getElementById('checkInBtn'),
@@ -879,6 +980,30 @@
       function showMessage(text, type = 'success') {
         messageBox.textContent = text;
         messageBox.className = `message ${type}`;
+      }
+
+      function formatReportDate() {
+        const now = new Date();
+        return `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
+      }
+
+      function formatSavedTime(value) {
+        if (!value) return '--';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '--';
+        return date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+      }
+
+      function calculateWorkHours(checkInValue, checkoutValue) {
+        if (!checkInValue || !checkoutValue) return '--';
+        const checkInTime = new Date(checkInValue).getTime();
+        const checkoutTime = new Date(checkoutValue).getTime();
+        if (Number.isNaN(checkInTime) || Number.isNaN(checkoutTime) || checkoutTime <= checkInTime) return '--';
+
+        const totalMinutes = Math.round((checkoutTime - checkInTime) / 60000);
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return minutes ? `${hours} ساعة و ${minutes} دقيقة` : `${hours} ساعة`;
       }
 
       function getAttendanceModeLabel(value) {
@@ -947,7 +1072,7 @@
         buttons.checkIn.disabled = attendanceLocked;
         buttons.task.disabled = taskLocked;
         buttons.checkOut.disabled = checkoutLocked;
-        taskInputs.forEach(input => input.disabled = taskLocked);
+        [...taskInputs, ...Object.values(reportInputs)].forEach(input => input.disabled = taskLocked);
       }
 
       function updateSummary() {
@@ -974,6 +1099,121 @@
         document.getElementById('checkOuts').textContent = checkOuts;
         document.getElementById('tasksCount').textContent = tasks;
         document.getElementById('completedCount').textContent = completed;
+      }
+
+      function collectDailyReportData() {
+        const mainTasks = taskInputs
+          .map((input, index) => {
+            const value = input.value.trim();
+            return value ? `المهمة ${index + 1}: ${value}` : '';
+          })
+          .filter(Boolean);
+
+        return {
+          mainTasks,
+          taskResults: reportInputs.taskResults.value.trim(),
+          clientWork: reportInputs.clientWork.value.trim(),
+          inspectionWork: reportInputs.inspectionWork.value.trim(),
+          adsWork: reportInputs.adsWork.value.trim(),
+          meetingsWork: reportInputs.meetingsWork.value.trim(),
+          notesWork: reportInputs.notesWork.value.trim()
+        };
+      }
+
+      function hasDailyReportContent(reportData) {
+        return reportData.mainTasks.length || reportData.taskResults || reportData.clientWork || reportData.inspectionWork || reportData.adsWork || reportData.meetingsWork || reportData.notesWork;
+      }
+
+      function buildTaskPayloadForSheet(reportData) {
+        const parts = [];
+        if (reportData.mainTasks.length) parts.push(`المهام اليومية: ${reportData.mainTasks.join(' | ')}`);
+        if (reportData.taskResults) parts.push(`المهام والنتائج: ${reportData.taskResults}`);
+        if (reportData.clientWork) parts.push(`العملاء والمتابعات: ${reportData.clientWork}`);
+        if (reportData.inspectionWork) parts.push(`المعاينات: ${reportData.inspectionWork}`);
+        if (reportData.adsWork) parts.push(`الإعلانات: ${reportData.adsWork}`);
+        if (reportData.meetingsWork) parts.push(`الاجتماعات: ${reportData.meetingsWork}`);
+        if (reportData.notesWork) parts.push(`الملاحظات: ${reportData.notesWork}`);
+        return parts.join(' || ');
+      }
+
+      function listOrEmpty(items) {
+        return items.length ? items.map(item => `• ${item}`).join('\n') : '•';
+      }
+
+      function textOrEmpty(value) {
+        return value ? `• ${value}` : '•';
+      }
+
+      function buildDailyReportText() {
+        const employeeId = employeeSelect.value;
+        const employeeName = EMPLOYEE_MAP[employeeId];
+        const checkInValue = localStorage.getItem(getActionLockKey(employeeId, 'attendance'));
+        const checkoutValue = localStorage.getItem(getActionLockKey(employeeId, 'checkout'));
+        const reportData = collectDailyReportData();
+
+        return [
+          '🏢 تقرير العمل اليومي',
+          '',
+          'شركة صلاح للاستثمار والتسويق العقاري',
+          '',
+          `التاريخ: ${formatReportDate()}`,
+          `اسم الموظف: ${employeeName}`,
+          `وقت الحضور: ${formatSavedTime(checkInValue)}`,
+          `وقت الانصراف: ${formatSavedTime(checkoutValue)}`,
+          `إجمالي الساعات: ${calculateWorkHours(checkInValue, checkoutValue)}`,
+          '',
+          '⸻',
+          '',
+          '🔴 المهام اليومية',
+          listOrEmpty(reportData.mainTasks),
+          '',
+          '⸻',
+          '',
+          '🔴 المهام والنتائج',
+          textOrEmpty(reportData.taskResults),
+          '',
+          '⸻',
+          '',
+          '🟠 العملاء والمتابعات',
+          textOrEmpty(reportData.clientWork),
+          '',
+          '⸻',
+          '',
+          '🟡 المعاينات',
+          textOrEmpty(reportData.inspectionWork),
+          '',
+          '⸻',
+          '',
+          '🔵 الإعلانات',
+          textOrEmpty(reportData.adsWork),
+          '',
+          '⸻',
+          '',
+          '🟣 الاجتماعات',
+          textOrEmpty(reportData.meetingsWork),
+          '',
+          '⸻',
+          '',
+          '⚪ الملاحظات',
+          textOrEmpty(reportData.notesWork)
+        ].join('\n');
+      }
+
+      async function copyTextToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
       }
 
       async function hitAppsScript(payload) {
@@ -1134,19 +1374,14 @@
           return;
         }
 
-        const tasks = taskInputs
-          .map((input, index) => {
-            const value = input.value.trim();
-            return value ? `المهمة ${index + 1}: ${value}` : '';
-          })
-          .filter(Boolean);
+        const reportData = collectDailyReportData();
 
-        if (!tasks.length) {
-          showMessage('اكتب مهمة واحدة على الأقل.', 'error');
+        if (!hasDailyReportContent(reportData)) {
+          showMessage('اكتب مهمة واحدة على الأقل أو أضف بيانات في تقرير مهام اليوم.', 'error');
           return;
         }
 
-        const task = tasks.join(' | ');
+        const task = buildTaskPayloadForSheet(reportData);
 
         setBusy(true);
         try {
@@ -1159,12 +1394,22 @@
           markSession(employeeId, 'task');
           showMessage(data.message || 'تم حفظ المهمة بنجاح.', 'success');
           document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
-          taskInputs.forEach(input => input.value = '');
         } catch (err) {
           showMessage(err.message, 'error');
         } finally {
           setBusy(false);
           applyLocksForEmployee(employeeId);
+        }
+      });
+
+      copyReportBtn.addEventListener('click', async () => {
+        const reportText = buildDailyReportText();
+        try {
+          await copyTextToClipboard(reportText);
+          showMessage('تم نسخ تقرير اليوم بنجاح.', 'success');
+        } catch (err) {
+          showMessage('تعذر نسخ التقرير تلقائيًا، يمكنك تحديد النص ونسخه يدويًا.', 'error');
+          console.error(err);
         }
       });
 
