@@ -381,8 +381,14 @@
       label {
         display: block;
         margin-bottom: 8px;
-        color: #f9fafb;
-        font-weight: 600;
+        width: fit-content;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--gold-1) 0%, #fff1b8 40%, var(--gold-2) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 16px rgba(246, 212, 123, 0.16);
       }
 
       select, textarea {
