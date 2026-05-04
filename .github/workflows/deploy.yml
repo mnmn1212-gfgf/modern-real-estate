@@ -1,4 +1,4 @@
-name: Deploy Vite site
+name: Deploy Static Site
 
 on:
   push:
@@ -15,8 +15,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
@@ -25,34 +29,23 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build site
-        run: npm run build
-
-      - name: Add nojekyll
-        run: touch dist/.nojekyll
+      - name: Prepare static files
+        run: |
+          mkdir -p _site
+          find . -maxdepth 1 \
+            ! -name "." \
+            ! -name ".git" \
+            ! -name ".github" \
+            ! -name "_site" \
+            -exec cp -R {} _site/ \;
+          touch _site/.nojekyll
+          ls -la _site
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./_site
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
