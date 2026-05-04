@@ -80,6 +80,33 @@
         gap: 20px;
       }
 
+      
+      .hero-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .logo-card {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+
+      .logo-card img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+      }
+
       .hero h1 {
         margin: 0 0 12px;
         font-size: clamp(28px, 4vw, 48px);
@@ -356,11 +383,17 @@
     <div class="container">
       <section class="hero">
         <div class="hero-grid">
-          <div>
-            <h1>سيستم حضور وانصراف ومهام يومية</h1>
-            <p class="lead">
-              اختر اسمك ثم سجّل حضورك أو انصرافك أو مهمتك اليومية بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
-            </p>
+          <div class="hero-main">
+            <div>
+              <h1>سيستم حضور وانصراف ومهام يومية</h1>
+              <p class="lead">
+                اختر اسمك ثم سجّل حضورك أو انصرافك أو مهمتك اليومية بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
+              </p>
+            </div>
+
+            <div class="logo-card">
+              <img src="./icon-512.png" alt="logo">
+            </div>
           </div>
           <div class="hero-side">
             <div class="clock">
