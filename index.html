@@ -515,21 +515,7 @@
         min-height: 180px;
         resize: vertical;
       }
-
-      .tasks-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .task-item {
-        min-height: 72px;
-        resize: vertical;
-        font-size: 15px;
-        line-height: 1.7;
-      }
-
-      .daily-report-box {
+.daily-report-box {
         margin-top: 14px;
         padding: 16px;
         border-radius: 22px;
@@ -819,17 +805,8 @@
 
           <div class="daily-report-box">
             <label class="gold-label">تقرير مهام اليوم</label>
-            <div class="report-hint">اكتب مهامك اليومية بشكل منظم، وسيتم حفظها كتقرير عمل يومي مرتبط بالحضور والانصراف.</div>
-
-            <div class="tasks-grid" style="margin-top:12px;">
-              <textarea class="task-item" id="task1" placeholder="المهمة 1"></textarea>
-              <textarea class="task-item" id="task2" placeholder="المهمة 2"></textarea>
-              <textarea class="task-item" id="task3" placeholder="المهمة 3"></textarea>
-              <textarea class="task-item" id="task4" placeholder="المهمة 4"></textarea>
-              <textarea class="task-item" id="task5" placeholder="المهمة 5"></textarea>
-            </div>
-
-            <div class="report-grid">
+            <div class="report-hint">اكتب ملخص نتائج اليوم والمتابعات بشكل منظم، وسيتم حفظه كتقرير عمل يومي مرتبط بالحضور والانصراف.</div>
+<div class="report-grid">
               <div class="report-group full">
                 <label class="report-label" for="taskResults">المهام والنتائج</label>
                 <textarea class="report-field large" id="taskResults" placeholder="اكتب أهم النتائج التي تم تحقيقها اليوم"></textarea>
@@ -939,13 +916,6 @@
       const liveClock = document.getElementById('liveClock');
       const messageBox = document.getElementById('messageBox');
       const employeeSelect = document.getElementById('employeeSelect');
-      const taskInputs = [
-        document.getElementById('task1'),
-        document.getElementById('task2'),
-        document.getElementById('task3'),
-        document.getElementById('task4'),
-        document.getElementById('task5')
-      ];
       const attendanceModeSelect = document.getElementById('attendanceMode');
       const crownButtons = Array.from(document.querySelectorAll('.crown-btn'));
       const reportInputs = {
@@ -1072,7 +1042,7 @@
         buttons.checkIn.disabled = attendanceLocked;
         buttons.task.disabled = taskLocked;
         buttons.checkOut.disabled = checkoutLocked;
-        [...taskInputs, ...Object.values(reportInputs)].forEach(input => input.disabled = taskLocked);
+        Object.values(reportInputs).forEach(input => input.disabled = taskLocked);
       }
 
       function updateSummary() {
@@ -1102,15 +1072,7 @@
       }
 
       function collectDailyReportData() {
-        const mainTasks = taskInputs
-          .map((input, index) => {
-            const value = input.value.trim();
-            return value ? `المهمة ${index + 1}: ${value}` : '';
-          })
-          .filter(Boolean);
-
         return {
-          mainTasks,
           taskResults: reportInputs.taskResults.value.trim(),
           clientWork: reportInputs.clientWork.value.trim(),
           inspectionWork: reportInputs.inspectionWork.value.trim(),
@@ -1121,12 +1083,11 @@
       }
 
       function hasDailyReportContent(reportData) {
-        return reportData.mainTasks.length || reportData.taskResults || reportData.clientWork || reportData.inspectionWork || reportData.adsWork || reportData.meetingsWork || reportData.notesWork;
+        return reportData.taskResults || reportData.clientWork || reportData.inspectionWork || reportData.adsWork || reportData.meetingsWork || reportData.notesWork;
       }
 
       function buildTaskPayloadForSheet(reportData) {
         const parts = [];
-        if (reportData.mainTasks.length) parts.push(`المهام اليومية: ${reportData.mainTasks.join(' | ')}`);
         if (reportData.taskResults) parts.push(`المهام والنتائج: ${reportData.taskResults}`);
         if (reportData.clientWork) parts.push(`العملاء والمتابعات: ${reportData.clientWork}`);
         if (reportData.inspectionWork) parts.push(`المعاينات: ${reportData.inspectionWork}`);
@@ -1135,12 +1096,7 @@
         if (reportData.notesWork) parts.push(`الملاحظات: ${reportData.notesWork}`);
         return parts.join(' || ');
       }
-
-      function listOrEmpty(items) {
-        return items.length ? items.map(item => `• ${item}`).join('\n') : '•';
-      }
-
-      function textOrEmpty(value) {
+function textOrEmpty(value) {
         return value ? `• ${value}` : '•';
       }
 
@@ -1161,11 +1117,6 @@
           `وقت الحضور: ${formatSavedTime(checkInValue)}`,
           `وقت الانصراف: ${formatSavedTime(checkoutValue)}`,
           `إجمالي الساعات: ${calculateWorkHours(checkInValue, checkoutValue)}`,
-          '',
-          '⸻',
-          '',
-          '🔴 المهام اليومية',
-          listOrEmpty(reportData.mainTasks),
           '',
           '⸻',
           '',
@@ -1377,7 +1328,7 @@
         const reportData = collectDailyReportData();
 
         if (!hasDailyReportContent(reportData)) {
-          showMessage('اكتب مهمة واحدة على الأقل أو أضف بيانات في تقرير مهام اليوم.', 'error');
+          showMessage('أضف بيانات واحدة على الأقل في تقرير مهام اليوم.', 'error');
           return;
         }
 
