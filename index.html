@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="سيستم حضور وانصراف لشركة Modern Real Estate">
+    <meta name="description" content="سيستم حضور وانصراف ومهام يومية لشركة Modern Real Estate">
     <meta name="theme-color" content="#08111f">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Modern Real Estate">
@@ -20,11 +20,11 @@
     <!-- Link preview image for WhatsApp, Facebook, Telegram, etc. -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="نظام حضور وانصراف">
-    <meta property="og:description" content="سيستم حضور وانصراف لشركة Modern Real Estate">
+    <meta property="og:description" content="سيستم حضور وانصراف ومهام يومية لشركة Modern Real Estate">
     <meta property="og:image" content="./icon-512.png?v=modern-logo-2">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="نظام حضور وانصراف">
-    <meta name="twitter:description" content="سيستم حضور وانصراف لشركة Modern Real Estate">
+    <meta name="twitter:description" content="سيستم حضور وانصراف ومهام يومية لشركة Modern Real Estate">
     <meta name="twitter:image" content="./icon-512.png?v=modern-logo-2">
 
     <title>نظام حضور وانصراف</title>
@@ -418,7 +418,7 @@
 
       .stats {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 14px;
         margin: 20px 0;
       }
@@ -484,7 +484,7 @@
         color: var(--gold-1);
       }
 
-      select {
+      select, textarea {
         width: 100%;
         border: none;
         outline: none;
@@ -510,6 +510,25 @@
         outline: none;
         box-shadow: 0 0 0 2px rgba(246, 212, 123, 0.4);
       }
+
+      textarea {
+        min-height: 180px;
+        resize: vertical;
+      }
+
+      .tasks-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .task-item {
+        min-height: 72px;
+        resize: vertical;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
       .actions {
         display: flex;
         flex-wrap: wrap;
@@ -660,10 +679,6 @@
         .hero-grid, .stats, .grid2 {
           grid-template-columns: 1fr;
         }
-
-        .report-group.full {
-          grid-column: auto;
-        }
       }
     </style>
   </head>
@@ -686,7 +701,7 @@
 
             <div id="connectionCard" class="hero-glass-card info-card status-card status-ok">
               <div class="card-eyebrow">تعليمات التسجيل</div>
-              <div id="connectionText">سجّل حضورك أو انصرافك، وكل عملية تُحفظ مرة واحدة فقط.</div>
+              <div id="connectionText">سجّل حضورك أو انصرافك أو مهمتك اليومية، وكل عملية تُحفظ مرة واحدة فقط.</div>
             </div>
           </div>
 
@@ -698,7 +713,7 @@
               <h1><span>نظام حضور وانصراف</span></h1>
               
               <p class="lead">
-                اختر اسمك ثم سجّل حضورك أو انصرافك بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
+                اختر اسمك ثم سجّل حضورك أو انصرافك أو مهامك اليومية بدقة، علمًا بأن كل عملية تُحفظ مرة واحدة فقط ولا يمكن تعديلها بعد ذلك.
               </p>
             </div>
           </div>
@@ -709,13 +724,14 @@
         <div class="stat"><div class="stat-label">إجمالي الموظفين</div><div class="stat-value" id="totalEmployees">5</div></div>
         <div class="stat"><div class="stat-label">الحضور المسجّل</div><div class="stat-value" id="checkIns">0</div></div>
         <div class="stat"><div class="stat-label">الانصراف المسجّل</div><div class="stat-value" id="checkOuts">0</div></div>
+        <div class="stat"><div class="stat-label">المهام المكتوبة</div><div class="stat-value" id="tasksCount">0</div></div>
         <div class="stat"><div class="stat-label">اكتمل يومهم</div><div class="stat-value" id="completedCount">0</div></div>
       </section>
 
       <section class="layout">
         <div class="panel">
           <h2>التسجيل الفوري</h2>
-          <p>اختر الموظف ثم سجّل الحضور أو الانصراف. بعد الحفظ لن يكون التعديل متاحًا.</p>
+          <p>اختر الموظف ثم سجّل الحضور أو الانصراف أو اكتب مهمته اليومية. بعد الحفظ لن يكون التعديل متاحًا.</p>
 
           <div class="grid2">
             <div>
@@ -744,15 +760,27 @@
             حدّد وضع دوامك اليومي بدقة لضمان تسجيل الحضور والانصراف بالشكل الصحيح داخل النظام.
           </div>
 
+          <div style="margin-top:14px;">
+            <label class="gold-label">المهام اليومية (5 مهام)</label>
+            <div class="tasks-grid">
+              <textarea class="task-item" id="task1" placeholder="المهمة 1"></textarea>
+              <textarea class="task-item" id="task2" placeholder="المهمة 2"></textarea>
+              <textarea class="task-item" id="task3" placeholder="المهمة 3"></textarea>
+              <textarea class="task-item" id="task4" placeholder="المهمة 4"></textarea>
+              <textarea class="task-item" id="task5" placeholder="المهمة 5"></textarea>
+            </div>
+          </div>
+
           <div class="actions">
             <button class="btn-gold" id="checkInBtn">تسجيل حضور</button>
+            <button class="btn-dark" id="saveTaskBtn">حفظ المهمة</button>
             <button class="btn-danger" id="checkOutBtn">تسجيل انصراف</button>
           </div>
 
           <div id="messageBox" class="message"></div>
 
           <div class="footer-note">
-            اختر اسمك ثم اضغط على الإجراء المطلوب مرة واحدة فقط، وسيتم حفظه داخل شيت اليوم تلقائيًا.
+            اختر اسمك ثم اضغط على الإجراء المطلوب مرة واحدة فقط، وسيتم حفظه ولا يمكن تعديله حتى الساعة 6 صباحًا.
           </div>
         </div>
       </section>
@@ -807,7 +835,7 @@
     </div>
 
     <script>
-      const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwuWifvv8l_8Ww6kEurw8G5D38hd96CbWGvrnrnDuKsgLpu9Z9Ao6SfGbVdtPOIK2Cs/exec";
+      const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzVhNs1eElL8hn2jJRi-E4UQoVaGu6-kzTvWfLh8_EYD80l18ALNHbCTRIn5xllsNC/exec";
       const EMPLOYEE_MAP = {
         "EMP-001": "احمد صلاح بيومي",
         "EMP-002": "حميده محمد هنداوي",
@@ -819,12 +847,20 @@
       const liveClock = document.getElementById('liveClock');
       const messageBox = document.getElementById('messageBox');
       const employeeSelect = document.getElementById('employeeSelect');
+      const taskInputs = [
+        document.getElementById('task1'),
+        document.getElementById('task2'),
+        document.getElementById('task3'),
+        document.getElementById('task4'),
+        document.getElementById('task5')
+      ];
       const attendanceModeSelect = document.getElementById('attendanceMode');
       const crownButtons = Array.from(document.querySelectorAll('.crown-btn'));
 
       const buttons = {
         checkIn: document.getElementById('checkInBtn'),
-        checkOut: document.getElementById('checkOutBtn')
+        checkOut: document.getElementById('checkOutBtn'),
+        task: document.getElementById('saveTaskBtn')
       };
 
       const employeeIds = Object.keys(EMPLOYEE_MAP);
@@ -905,31 +941,38 @@
 
       function applyLocksForEmployee(employeeId) {
         const attendanceLocked = isActionLocked(employeeId, 'attendance');
+        const taskLocked = isActionLocked(employeeId, 'task');
         const checkoutLocked = isActionLocked(employeeId, 'checkout');
 
         buttons.checkIn.disabled = attendanceLocked;
+        buttons.task.disabled = taskLocked;
         buttons.checkOut.disabled = checkoutLocked;
+        taskInputs.forEach(input => input.disabled = taskLocked);
       }
 
       function updateSummary() {
         let checkIns = 0;
         let checkOuts = 0;
+        let tasks = 0;
         let completed = 0;
 
         employeeIds.forEach(id => {
           const s = sessionState[id] || {};
           const hasAttendance = s.attendance || isActionLocked(id, 'attendance');
           const hasCheckout = s.checkout || isActionLocked(id, 'checkout');
+          const hasTask = s.task || isActionLocked(id, 'task');
 
           if (hasAttendance) checkIns++;
           if (hasCheckout) checkOuts++;
-          if (hasAttendance && hasCheckout) completed++;
+          if (hasTask) tasks++;
+          if (hasAttendance && hasCheckout && hasTask) completed++;
         });
 
         document.getElementById('sheetName').textContent = todaySheetName();
         document.getElementById('totalEmployees').textContent = employeeIds.length;
         document.getElementById('checkIns').textContent = checkIns;
         document.getElementById('checkOuts').textContent = checkOuts;
+        document.getElementById('tasksCount').textContent = tasks;
         document.getElementById('completedCount').textContent = completed;
       }
 
@@ -1008,7 +1051,7 @@
           const connectionCard = document.getElementById('connectionCard');
 
           if (data.ok) {
-            connectionText.textContent = 'سجّل حضورك أو انصرافك، وكل عملية تُحفظ مرة واحدة فقط';
+            connectionText.textContent = 'سجّل حضورك أو انصرافك أو مهمتك اليومية، وكل عملية تُحفظ مرة واحدة فقط';
             connectionCard.classList.remove('status-error');
             connectionCard.classList.add('status-ok');
           } else {
@@ -1075,6 +1118,48 @@
           markSession(employeeId, 'checkout');
           showMessage(data.message || 'تم تسجيل الانصراف بنجاح.', 'success');
           document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
+        } catch (err) {
+          showMessage(err.message, 'error');
+        } finally {
+          setBusy(false);
+          applyLocksForEmployee(employeeId);
+        }
+      });
+
+      buttons.task.addEventListener('click', async () => {
+        const employeeId = employeeSelect.value;
+        if (isActionLocked(employeeId, 'task')) {
+          showMessage('تم حفظ المهمة مسبقًا، وسيكون متاحًا مرة أخرى بعد الساعة 6 صباحًا.', 'error');
+          applyLocksForEmployee(employeeId);
+          return;
+        }
+
+        const tasks = taskInputs
+          .map((input, index) => {
+            const value = input.value.trim();
+            return value ? `المهمة ${index + 1}: ${value}` : '';
+          })
+          .filter(Boolean);
+
+        if (!tasks.length) {
+          showMessage('اكتب مهمة واحدة على الأقل.', 'error');
+          return;
+        }
+
+        const task = tasks.join(' | ');
+
+        setBusy(true);
+        try {
+          const data = await hitAppsScript({
+            employee: EMPLOYEE_MAP[employeeId],
+            action: 'task',
+            task,
+            attendance_mode: attendanceModeSelect.value
+          });
+          markSession(employeeId, 'task');
+          showMessage(data.message || 'تم حفظ المهمة بنجاح.', 'success');
+          document.getElementById('sheetName').textContent = data.sheet || todaySheetName();
+          taskInputs.forEach(input => input.value = '');
         } catch (err) {
           showMessage(err.message, 'error');
         } finally {
