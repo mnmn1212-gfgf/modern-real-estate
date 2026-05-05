@@ -170,6 +170,21 @@
         font-size: 15px;
       }
 
+      .info-card-glass-frame {
+        margin-top: 8px;
+        padding: 16px 18px;
+        border-radius: 20px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03)),
+          rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.14);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.08),
+          0 10px 26px rgba(0,0,0,0.16);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
       .clock-value {
         display: block;
         font-size: clamp(34px, 3vw, 46px);
@@ -736,19 +751,25 @@
           <div class="hero-side">
             <div class="hero-glass-card info-card clock">
               <div class="card-eyebrow">الوقت الحالي</div>
-              <span class="clock-value" id="liveClock">--:--:--</span>
-              <small class="card-note">توقيت جهازك المحلي</small>
+              <div class="info-card-glass-frame">
+                <span class="clock-value" id="liveClock">--:--:--</span>
+                <small class="card-note">توقيت جهازك المحلي</small>
+              </div>
             </div>
 
             <div class="hero-glass-card info-card date-card">
               <div class="card-eyebrow">بيانات اليوم</div>
-              <div>شيت اليوم: <b id="sheetName">--</b></div>
-              <div class="sheet-link-row">ملف العمل: <a class="status-link" href="https://docs.google.com/spreadsheets/d/1dSsj9rXwaQGaZ1MSogZnTYAsFyIasGQQ-u3RGXTQC0w/edit?usp=sharing" target="_blank">افتح Google Sheet</a></div>
+              <div class="info-card-glass-frame">
+                <div>شيت اليوم: <b id="sheetName">--</b></div>
+                <div class="sheet-link-row">ملف العمل: <a class="status-link" href="https://docs.google.com/spreadsheets/d/1dSsj9rXwaQGaZ1MSogZnTYAsFyIasGQQ-u3RGXTQC0w/edit?usp=sharing" target="_blank">افتح Google Sheet</a></div>
+              </div>
             </div>
 
             <div id="connectionCard" class="hero-glass-card info-card status-card status-ok">
               <div class="card-eyebrow">تعليمات التسجيل</div>
-              <div id="connectionText">سجّل حضورك أو انصرافك أو مهمتك اليومية، وكل عملية تُحفظ مرة واحدة فقط.</div>
+              <div class="info-card-glass-frame">
+                <div id="connectionText">سجّل حضورك أو انصرافك أو مهمتك اليومية، وكل عملية تُحفظ مرة واحدة فقط.</div>
+              </div>
             </div>
           </div>
 
